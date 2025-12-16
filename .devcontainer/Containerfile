@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/devcontainers/rust:latest
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    build-essential \
+    pkg-config \
+    libssl-dev \
+    libudev-dev \
+    pkg-config \
+    usbutils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create plugdev group and add the default vscode user to it
+RUN groupadd -f plugdev && usermod -aG plugdev vscode
+
+# Copy the rules into the container too (helps probe-rs suppress warnings)
+ADD https://probe.rs/files/69-probe-rs.rules /etc/udev/rules.d/69-probe-rs.rules

@@ -1,0 +1,27 @@
+{
+    "name": "Fluffy Pico DevCoontainer",
+    "build": {
+        "dockerfile": "Containerfile",
+        "context": ".."
+    },
+    "runArgs": [
+        "--device=/dev/bus/usb"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "streetsidesoftware.code-spell-checker",
+                "rust-lang.rust-analyzer",
+                "tamasfe.even-better-toml",
+                "vadimcn.vscode-lldb",
+                "fill-labs.dependi"
+            ]
+        }
+    },
+    "postCreateCommand": "cargo --version",
+    // Mounts the cargo registry so you don't have to re-download 
+    // crates every time the container is rebuilt (improves speed)
+    "mounts": [
+        "source=cargo-cache,target=/usr/local/cargo/registry,type=volume"
+    ]
+}
